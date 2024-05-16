@@ -8,7 +8,6 @@ export const GET = async () => {
         const abbreviations = Object.values(languages).map(
             (language) => language.abbreviation
         );
-        console.log(abbreviations);
         return new NextResponse(JSON.stringify(abbreviations), {
             status: 200,
         });

@@ -1,0 +1,18 @@
+.wrapper {
+    position: relative;
+}
+
+.hexagon {
+    color: #6c6;
+    font-size: 128px;
+    position: absolute;
+    z-index: 1;
+}
+
+.letter {
+    font-size: 64px;
+    position: absolute;
+    left: 29.05px;
+    top: 46.4px;
+    z-index: 2;
+}

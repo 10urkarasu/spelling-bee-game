@@ -1,0 +1,39 @@
+.select {
+    background-color: #ecd664;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    box-sizing: border-box;
+    color: #000000;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+.select option {
+    background-color: #ecd664;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    color: #000000;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+.select option:checked {
+    background-color: rgba(75, 59, 220, 1);
+    color: white;
+}
+.select option:hover {
+    background-color: rgba(75, 59, 220, 1) !;
+    color: white;
+}
+
+.select option:hover {
+    box-shadow: 0 0 10px 100px #1882a8 inset;
+}

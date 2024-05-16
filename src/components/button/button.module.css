@@ -1,5 +1,5 @@
 .button {
-    background-color: #b19b30;
+    background-color: #fff;
     border: solid transparent;
     border-radius: 16px;
     border-width: 0 0 4px;
@@ -19,7 +19,7 @@
 
 .button:after {
     background-clip: padding-box;
-    background-color: #ecd664;
+    background-color: #fff;
     border: solid transparent;
     border-radius: 16px;
     border-width: 0 0 4px;

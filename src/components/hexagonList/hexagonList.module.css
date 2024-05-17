@@ -1,0 +1,14 @@
+.hexagonList {
+    width: 304.14px;
+}
+
+.triple {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-left: 50.69px;
+}

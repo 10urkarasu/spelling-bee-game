@@ -2,31 +2,22 @@
 
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-const getData = async () => {
-    const res = await fetch(`http://localhost:3000/api/languages`, {
-        cache: "no-store",
-    });
-
-    if (!res.ok) {
-        throw new Error("Failed");
-    }
-    return res.json();
-};
+import { useGame } from "@/context/gameContext";
 
 const Page = () => {
     const router = useRouter();
+    const { languages } = useGame();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getData();
-                router.push(`/${data[0]}`);
+                router.push(`/${languages[0]}`);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
         fetchData();
-    }, [router]);
+    }, [router, languages]);
 
     return <div>Yönlendiriliyor</div>;
 };

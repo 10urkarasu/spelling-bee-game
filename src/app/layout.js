@@ -3,6 +3,7 @@ import "./globals.css";
 import { SettingsSection } from "@/components/settingsSection/SettingsSection";
 import { MainSection } from "@/components/mainSection/MainSection";
 import InfoSection from "@/components/infoSection/InfoSection";
+import { GameProvider } from "@/context/gameContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,14 +16,16 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body className={inter.className}>
-                {children}
-                <div className="container">
-                    <div className="wrapper">
-                        <SettingsSection />
-                        <MainSection />
-                        <InfoSection />
+                <GameProvider>
+                    {children}
+                    <div className="container">
+                        <div className="wrapper">
+                            <SettingsSection />
+                            <MainSection />
+                            <InfoSection />
+                        </div>
                     </div>
-                </div>
+                </GameProvider>
             </body>
         </html>
     );

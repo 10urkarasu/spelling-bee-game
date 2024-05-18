@@ -1,23 +1,33 @@
+"use client";
+
 import React from "react";
 import styles from "./hexagonList.module.css";
 import Hexagon from "../hexagon/Hexagon";
+import { useGame } from "@/context/gameContext";
 
 const HexagonList = () => {
+    const { letters } = useGame();
+    const hexagonGroups = [];
+    let rowCount = 3;
+
+    for (let i = 0; i < letters.length; i += rowCount) {
+        rowCount = rowCount === 2 ? 3 : 2;
+        const group = letters.slice(i, i + rowCount);
+        hexagonGroups.push(group);
+    }
+
     return (
         <div className={styles.hexagonList}>
-            <div className={styles.dual}>
-                <Hexagon />
-                <Hexagon />
-            </div>
-            <div className={styles.triple}>
-                <Hexagon />
-                <Hexagon />
-                <Hexagon />
-            </div>
-            <div className={styles.dual}>
-                <Hexagon />
-                <Hexagon />
-            </div>
+            {hexagonGroups.map((group, index) => (
+                <div
+                    key={index}
+                    className={group.length === 3 ? styles.triple : styles.dual}
+                >
+                    {group.map((letter, subIndex) => (
+                        <Hexagon letter={letter} key={subIndex} />
+                    ))}
+                </div>
+            ))}
         </div>
     );
 };

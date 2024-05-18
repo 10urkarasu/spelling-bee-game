@@ -98,11 +98,13 @@ function GameProvider({ children }) {
         getLanguages();
     }, []);
 
-    async function getLetters(count) {
+    async function getLetters(lang, count) {
         dispatch({ type: "loading" });
         try {
             const res = await fetch(
-                `${BASE_URL}/api/letters/${currentLanguage}/${count}`
+                `${BASE_URL}/api/letters/${
+                    lang ? lang : currentLanguage
+                }/${count}`
             );
             const data = await res.json();
             dispatch({ type: "letters/loaded", payload: data });
@@ -136,6 +138,7 @@ function GameProvider({ children }) {
             type: "currentLanguage/seted",
             payload: lang,
         });
+        getLetters(lang, 7);
     }
 
     return (
@@ -150,6 +153,7 @@ function GameProvider({ children }) {
                 currentLanguage,
                 isLoading,
                 setCurrentLanguage,
+                getLetters,
             }}
         >
             {children}

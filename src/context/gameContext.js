@@ -10,7 +10,7 @@ const initialState = {
     words: [],
     points: [],
     currentWord: "",
-    secondsRemaining: null,
+    secondsRemaining: 10,
     languages: [],
     currentLanguage: "",
     isLoading: false,
@@ -51,9 +51,10 @@ function reducer(state, action) {
                     ? [...state.points, action.payload.word.length]
                     : [...state.points],
                 currentWord: action.payload.data ? "" : state.currentWord,
-                secondsRemaining: action.payload.data
-                    ? secondsRemaining + 15
-                    : secondsRemaining,
+                isLoading: false,
+                // secondsRemaining: action.payload.data
+                //     ? secondsRemaining + 15
+                //     : 1,
             };
         case "rejected":
             return {
@@ -118,6 +119,7 @@ function GameProvider({ children }) {
 
     async function checkWord(word) {
         dispatch({ type: "loading" });
+        if (!word) return;
         try {
             const res = await fetch(
                 `${BASE_URL}/api/words/${currentLanguage}/${word}`
@@ -154,6 +156,7 @@ function GameProvider({ children }) {
                 isLoading,
                 setCurrentLanguage,
                 getLetters,
+                checkWord,
             }}
         >
             {children}

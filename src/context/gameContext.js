@@ -14,6 +14,7 @@ const initialState = {
     languages: [],
     currentLanguage: "",
     isLoading: false,
+    status: "wait",
 };
 
 function reducer(state, action) {
@@ -22,6 +23,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 isLoading: true,
+            };
+        case "status":
+            return {
+                ...state,
+                status: action.payload,
             };
         case "languages/loaded":
             return {
@@ -70,6 +76,7 @@ function reducer(state, action) {
 function GameProvider({ children }) {
     const [
         {
+            status,
             currentLanguage,
             letters,
             words,
@@ -140,12 +147,25 @@ function GameProvider({ children }) {
             type: "currentLanguage/seted",
             payload: lang,
         });
+        dispatch({
+            type: "status",
+            payload: "wait",
+        });
         getLetters(lang, 7);
+    }
+
+    function setStatus({ status }) {
+        dispatch({ type: "loading" });
+        dispatch({
+            type: "status",
+            payload: { status },
+        });
     }
 
     return (
         <GameContext.Provider
             value={{
+                status,
                 letters,
                 words,
                 points,
@@ -157,6 +177,7 @@ function GameProvider({ children }) {
                 setCurrentLanguage,
                 getLetters,
                 checkWord,
+                setStatus,
             }}
         >
             {children}

@@ -1,14 +1,11 @@
 import React from "react";
-import styles from "./InfoSection.module.css";
-import { Word } from "../word/Word";
+import styles from "./infoSection.module.css";
+import { WordList } from "../wordList/WordList";
 
 const InfoSection = () => {
     return (
         <aside>
-            <Word />
-            <Word />
-            <Word />
-            <Word />
+            <WordList />
         </aside>
     );
 };

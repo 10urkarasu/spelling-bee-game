@@ -66,6 +66,7 @@ function reducer(state, action) {
                   }
                 : {
                       ...state,
+                      currentWord: action.payload.word,
                       gamePlayInfo: "No words found in the dictionary.",
                   };
         case "rejected":
@@ -73,6 +74,16 @@ function reducer(state, action) {
                 ...state,
                 isLoading: false,
                 error: action.payload,
+            };
+        case "restart":
+            return {
+                ...state,
+                words: [],
+                points: [],
+                currentWord: "",
+                secondsRemaining: 60,
+                gamePlayInfo: "Guess a word containing letters",
+                isLoading: false,
             };
         case "tick":
             return {
@@ -161,7 +172,7 @@ function GameProvider({ children }) {
 
     function setCurrentLanguage(lang) {
         dispatch({ type: "loading" });
-        dispatch({ type: "seconds" });
+        dispatch({ type: "restart" });
         dispatch({
             type: "currentLanguage/seted",
             payload: lang,
@@ -188,6 +199,11 @@ function GameProvider({ children }) {
         });
     }
 
+    function restart() {
+        getLetters(currentLanguage, 7);
+        dispatch({ type: "restart" });
+    }
+
     return (
         <GameContext.Provider
             value={{
@@ -206,6 +222,7 @@ function GameProvider({ children }) {
                 checkWord,
                 setStatus,
                 setSeconds,
+                restart,
             }}
         >
             {children}

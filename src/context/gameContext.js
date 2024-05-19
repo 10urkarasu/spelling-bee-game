@@ -15,6 +15,7 @@ const initialState = {
     currentLanguage: "",
     isLoading: false,
     status: "wait",
+    gamePlayInfo: "Guess a word containing letters",
 };
 
 function reducer(state, action) {
@@ -53,14 +54,20 @@ function reducer(state, action) {
                 letters: action.payload,
             };
         case "word/checked":
-            return {
-                ...state,
-                words: [...state.words, action.payload.word],
-                points: [...state.points, action.payload.word.length],
-                currentWord: "",
-                isLoading: false,
-                secondsRemaining: state.secondsRemaining + 15,
-            };
+            return action.payload.data
+                ? {
+                      ...state,
+                      words: [...state.words, action.payload.word],
+                      points: [...state.points, action.payload.word.length],
+                      currentWord: "",
+                      isLoading: false,
+                      secondsRemaining: state.secondsRemaining + 15,
+                      gamePlayInfo: "Correct word. You gained 15 seconds.",
+                  }
+                : {
+                      ...state,
+                      gamePlayInfo: "No words found in the dictionary.",
+                  };
         case "rejected":
             return {
                 ...state,
@@ -86,6 +93,7 @@ function GameProvider({ children }) {
     const [
         {
             status,
+            gamePlayInfo,
             currentLanguage,
             letters,
             words,
@@ -141,9 +149,8 @@ function GameProvider({ children }) {
                 `${BASE_URL}/api/words/${currentLanguage}/${word}`
             );
             const data = await res.json();
-            data
-                ? dispatch({ type: "word/checked", payload: { data, word } })
-                : null;
+            dispatch({ type: "word/checked", payload: { data, word } });
+            return data;
         } catch {
             dispatch({
                 type: "rejected",
@@ -185,6 +192,7 @@ function GameProvider({ children }) {
         <GameContext.Provider
             value={{
                 status,
+                gamePlayInfo,
                 letters,
                 words,
                 points,

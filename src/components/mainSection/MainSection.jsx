@@ -6,6 +6,7 @@ import { Input } from "../input/Input";
 import HexagonList from "../hexagonList/HexagonList";
 import { useGame } from "@/context/gameContext";
 import { Button } from "../button/Button";
+import GamePlayInfo from "../gamePlayInfo/GamePlayInfo";
 
 export const MainSection = () => {
     const { status, setStatus } = useGame();
@@ -18,6 +19,7 @@ export const MainSection = () => {
                 </>
             ) : (
                 <>
+                    <GamePlayInfo />
                     <HexagonList />
                     <Input />
                 </>

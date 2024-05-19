@@ -10,7 +10,7 @@ const initialState = {
     words: [],
     points: [],
     currentWord: "",
-    secondsRemaining: 10,
+    secondsRemaining: 60,
     languages: [],
     currentLanguage: "",
     isLoading: false,
@@ -28,6 +28,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 status: action.payload,
+            };
+        case "seconds":
+            return {
+                ...state,
+                secondsRemaining: 60,
             };
         case "languages/loaded":
             return {
@@ -50,23 +55,27 @@ function reducer(state, action) {
         case "word/checked":
             return {
                 ...state,
-                words: action.payload.data
-                    ? [...state.words, action.payload.word]
-                    : [...state.words],
-                points: action.payload.data
-                    ? [...state.points, action.payload.word.length]
-                    : [...state.points],
-                currentWord: action.payload.data ? "" : state.currentWord,
+                words: [...state.words, action.payload.word],
+                points: [...state.points, action.payload.word.length],
+                currentWord: "",
                 isLoading: false,
-                // secondsRemaining: action.payload.data
-                //     ? secondsRemaining + 15
-                //     : 1,
+                secondsRemaining: state.secondsRemaining + 15,
             };
         case "rejected":
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload,
+            };
+        case "tick":
+            return {
+                ...state,
+                secondsRemaining:
+                    state.status === "play"
+                        ? state.secondsRemaining - 1
+                        : state.secondsRemaining,
+                status:
+                    state.secondsRemaining === 0 ? "finished" : state.status,
             };
         default:
             return state;
@@ -132,7 +141,9 @@ function GameProvider({ children }) {
                 `${BASE_URL}/api/words/${currentLanguage}/${word}`
             );
             const data = await res.json();
-            dispatch({ type: "word/checked", payload: { data, word } });
+            data
+                ? dispatch({ type: "word/checked", payload: { data, word } })
+                : null;
         } catch {
             dispatch({
                 type: "rejected",
@@ -143,6 +154,7 @@ function GameProvider({ children }) {
 
     function setCurrentLanguage(lang) {
         dispatch({ type: "loading" });
+        dispatch({ type: "seconds" });
         dispatch({
             type: "currentLanguage/seted",
             payload: lang,
@@ -154,11 +166,18 @@ function GameProvider({ children }) {
         getLetters(lang, 7);
     }
 
-    function setStatus({ status }) {
+    function setStatus(status) {
         dispatch({ type: "loading" });
         dispatch({
             type: "status",
-            payload: { status },
+            payload: status,
+        });
+        console.log(status);
+    }
+
+    function setSeconds() {
+        dispatch({
+            type: "tick",
         });
     }
 
@@ -178,6 +197,7 @@ function GameProvider({ children }) {
                 getLetters,
                 checkWord,
                 setStatus,
+                setSeconds,
             }}
         >
             {children}

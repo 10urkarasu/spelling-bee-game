@@ -6,7 +6,8 @@ export const GET = async (req, { params }) => {
     const language = params.slug[0];
     const word = params.slug[1];
     try {
-        const data = await fs.readFile("data/languages.json", "utf-8");
+        const filePath = path.join(process.cwd(), "data", "languages.json");
+        const data = await fs.readFile(filePath, "utf-8");
         const languages = JSON.parse(data).languages;
 
         const filteredLanguage = Object.values(languages).filter((item) => {

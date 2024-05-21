@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
+import path from "path";
 import { selectRandomElements } from "@/helper/helper";
 
 export const GET = async (req, { params }) => {
@@ -8,7 +9,8 @@ export const GET = async (req, { params }) => {
     const count = params.slug[1];
 
     try {
-        const data = await fs.readFile("data/languages.json", "utf-8");
+        const filePath = path.join(process.cwd(), "data", "languages.json");
+        const data = await fs.readFile(filePath, "utf-8");
         const languages = JSON.parse(data).languages;
 
         const filteredLanguage = Object.values(languages).filter((item) => {

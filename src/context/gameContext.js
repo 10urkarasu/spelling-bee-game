@@ -146,7 +146,7 @@ function GameProvider({ children }) {
     useEffect(function () {
         async function getLanguages() {
             try {
-                const res = await fetch(`${BASE_URL}/api/languages`);
+                const res = await fetch(`/api/languages`);
                 const data = await res.json();
                 dispatch({ type: "languages/loaded", payload: data });
             } catch {
@@ -162,9 +162,7 @@ function GameProvider({ children }) {
     async function getLetters(lang, count) {
         try {
             const res = await fetch(
-                `${BASE_URL}/api/letters/${
-                    lang ? lang : currentLanguage
-                }/${count}`
+                `/api/letters/${lang ? lang : currentLanguage}/${count}`
             );
             const data = await res.json();
             dispatch({ type: "letters/loaded", payload: data });
@@ -182,7 +180,7 @@ function GameProvider({ children }) {
         } else {
             try {
                 const res = await fetch(
-                    `${BASE_URL}/api/words/${currentLanguage}/${!word || word}`
+                    `/api/words/${currentLanguage}/${!word || word}`
                 );
                 const data = await res.json();
                 dispatch({

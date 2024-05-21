@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import styles from "./hexagonList.module.css";
-import Hexagon from "../hexagon/Hexagon";
 import { useGame } from "@/context/gameContext";
+import Hexagon from "../hexagon/Hexagon";
+import styles from "./hexagonList.module.css";
 
 const HexagonList = () => {
     const { letters } = useGame();

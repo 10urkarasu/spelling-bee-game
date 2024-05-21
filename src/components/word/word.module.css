@@ -1,7 +1,20 @@
 .word {
-    margin-bottom: 13px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 8px;
     background-color: #ffffff18;
-    border-radius: 16px;
-    padding: 13px 16px;
-    color: #fff;
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    width: 100%;
+    padding: 9px 16px;
+    color: var(--primary-color);
+    font-size: var(--regular-font-size);
+    font-weight: var(--regular-font-weight);
+}
+
+@media (max-width: 768px) {
+    .word {
+        height: 8vh;
+    }
 }

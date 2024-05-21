@@ -15,7 +15,10 @@ const initialState = {
     currentLanguage: "",
     isLoading: false,
     status: "wait",
-    gamePlayInfo: "Guess a word containing letters",
+    gamePlayInfo: {
+        status: true,
+        info: "Guess a word containing letters",
+    },
 };
 
 function reducer(state, action) {
@@ -29,6 +32,11 @@ function reducer(state, action) {
             return {
                 ...state,
                 status: action.payload,
+            };
+        case "info":
+            return {
+                ...state,
+                gamePlayInfo: action.payload,
             };
         case "seconds":
             return {
@@ -62,13 +70,28 @@ function reducer(state, action) {
                       currentWord: "",
                       isLoading: false,
                       secondsRemaining: state.secondsRemaining + 15,
-                      gamePlayInfo: "Correct word. You gained 15 seconds.",
+                      gamePlayInfo: {
+                          status: true,
+                          info: "Correct word. You gained 15 seconds.",
+                      },
                   }
                 : {
                       ...state,
                       currentWord: action.payload.word,
-                      gamePlayInfo: "No words found in the dictionary.",
+                      gamePlayInfo: {
+                          status: false,
+                          info: "No words found in the dictionary.",
+                      },
                   };
+        case "word/used":
+            return {
+                ...state,
+                currentWord: action.payload.word,
+                gamePlayInfo: {
+                    status: false,
+                    info: "This word has been used before",
+                },
+            };
         case "rejected":
             return {
                 ...state,
@@ -82,7 +105,10 @@ function reducer(state, action) {
                 points: [],
                 currentWord: "",
                 secondsRemaining: 60,
-                gamePlayInfo: "Guess a word containing letters",
+                gamePlayInfo: {
+                    status: true,
+                    info: "Guess a word containing letters",
+                },
                 isLoading: false,
             };
         case "tick":
@@ -93,7 +119,7 @@ function reducer(state, action) {
                         ? state.secondsRemaining - 1
                         : state.secondsRemaining,
                 status:
-                    state.secondsRemaining === 0 ? "finished" : state.status,
+                    state.secondsRemaining === 1 ? "finished" : state.status,
             };
         default:
             return state;
@@ -119,7 +145,6 @@ function GameProvider({ children }) {
 
     useEffect(function () {
         async function getLanguages() {
-            dispatch({ type: "loading" });
             try {
                 const res = await fetch(`${BASE_URL}/api/languages`);
                 const data = await res.json();
@@ -135,7 +160,6 @@ function GameProvider({ children }) {
     }, []);
 
     async function getLetters(lang, count) {
-        dispatch({ type: "loading" });
         try {
             const res = await fetch(
                 `${BASE_URL}/api/letters/${
@@ -153,25 +177,31 @@ function GameProvider({ children }) {
     }
 
     async function checkWord(word) {
-        dispatch({ type: "loading" });
-        if (!word) return;
-        try {
-            const res = await fetch(
-                `${BASE_URL}/api/words/${currentLanguage}/${word}`
-            );
-            const data = await res.json();
-            dispatch({ type: "word/checked", payload: { data, word } });
-            return data;
-        } catch {
-            dispatch({
-                type: "rejected",
-                payload: "There was an error checked word ... ",
-            });
+        if (words.includes(word.toLocaleUpperCase(currentLanguage))) {
+            dispatch({ type: "word/used", payload: word });
+        } else {
+            try {
+                const res = await fetch(
+                    `${BASE_URL}/api/words/${currentLanguage}/${!word || word}`
+                );
+                const data = await res.json();
+                dispatch({
+                    type: "word/checked",
+                    payload: {
+                        data,
+                        word: word.toLocaleUpperCase(currentLanguage),
+                    },
+                });
+            } catch {
+                dispatch({
+                    type: "rejected",
+                    payload: "There was an error checked word ... ",
+                });
+            }
         }
     }
 
     function setCurrentLanguage(lang) {
-        dispatch({ type: "loading" });
         dispatch({ type: "restart" });
         dispatch({
             type: "currentLanguage/seted",
@@ -185,18 +215,36 @@ function GameProvider({ children }) {
     }
 
     function setStatus(status) {
-        dispatch({ type: "loading" });
         dispatch({
             type: "status",
             payload: status,
         });
-        console.log(status);
+        restart();
     }
 
     function setSeconds() {
         dispatch({
             type: "tick",
         });
+    }
+
+    function checkLetter(letter) {
+        if (letter === null) {
+            return true;
+        } else if (
+            letters.includes(letter.toLocaleUpperCase(currentLanguage))
+        ) {
+            return true;
+        } else {
+            dispatch({
+                type: "info",
+                payload: {
+                    status: false,
+                    info: "Use the letters given to you",
+                },
+            });
+            return false;
+        }
     }
 
     function restart() {
@@ -223,6 +271,7 @@ function GameProvider({ children }) {
                 setStatus,
                 setSeconds,
                 restart,
+                checkLetter,
             }}
         >
             {children}

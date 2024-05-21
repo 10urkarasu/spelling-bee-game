@@ -1,0 +1,21 @@
+.timer {
+    border-radius: var(--border-radius);
+    border: var(--border);
+    box-sizing: border-box;
+    color: var(--primary-color);
+    font-size: var(--game-font-size);
+    font-weight: var(--game-font-weight);
+    padding: 13px 16px;
+    text-align: center;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .timer {
+        height: 8vh;
+        margin: 0;
+        height: min-content;
+    }
+}

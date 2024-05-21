@@ -1,0 +1,15 @@
+.infoSection {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .infoSection {
+        grid-row: 3;
+        column-gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        overflow-y: hidden;
+        height: 8vh;
+    }
+}

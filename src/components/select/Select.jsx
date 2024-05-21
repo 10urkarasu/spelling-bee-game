@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import styles from "./select.module.css";
-import { useGame } from "@/context/gameContext";
 import { useRouter } from "next/navigation";
+import { useGame } from "@/context/gameContext";
+import styles from "./select.module.css";
 
 export const Select = () => {
     const router = useRouter();

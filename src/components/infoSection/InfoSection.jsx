@@ -1,15 +1,15 @@
 import React from "react";
-import styles from "./infoSection.module.css";
 import { WordList } from "../wordList/WordList";
 import Timer from "../timer/Timer";
 import Score from "../score/Score";
+import styles from "./infoSection.module.css";
 
 const InfoSection = () => {
     return (
-        <aside>
+        <aside className={styles.infoSection}>
             <WordList />
             <Timer />
-            <Score />
+            <Score type={"scoreInfo"} />
         </aside>
     );
 };

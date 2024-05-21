@@ -3,23 +3,17 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useGame } from "@/context/gameContext";
+import Spinner from "@/components/spinner/Spinner";
 
 const Page = () => {
     const router = useRouter();
     const { languages } = useGame();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                router.push(`/${languages[0]}`);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
+        router.push(`/${languages[0]}`);
     }, [router, languages]);
 
-    return <div>Yönlendiriliyor</div>;
+    return <Spinner />;
 };
 
 export default Page;

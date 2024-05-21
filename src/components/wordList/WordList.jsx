@@ -1,15 +1,16 @@
 "use client";
 
 import React from "react";
-import styles from "./wordList.module.css";
-import { Word } from "../word/Word";
 import { useGame } from "@/context/gameContext";
+import { Word } from "../word/Word";
+import styles from "./wordList.module.css";
 
 export const WordList = () => {
     const { words } = useGame();
+    const lastTenWords = words.slice(-10);
     return (
         <ul className={styles.wordList}>
-            {words.map((word, index) => (
+            {lastTenWords.map((word, index) => (
                 <Word word={word} key={index} />
             ))}
         </ul>

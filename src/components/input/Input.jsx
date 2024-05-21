@@ -1,18 +1,23 @@
 "use client";
 
 import React from "react";
-import styles from "./input.module.css";
 import { useGame } from "@/context/gameContext";
+import styles from "./input.module.css";
 
 export const Input = () => {
-    const { checkWord, currentWord } = useGame();
+    const { checkLetter, checkWord, currentWord } = useGame();
+
+    const handleChange = (event) => {
+        checkLetter(event.nativeEvent.data) && checkWord(event.target.value);
+    };
 
     return (
         <input
             className={styles.input}
             type="text"
-            onChange={(event) => checkWord(event.target.value)}
+            onChange={handleChange}
             value={currentWord}
+            placeholder="your word guess..."
         />
     );
 };

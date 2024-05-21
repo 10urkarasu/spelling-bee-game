@@ -1,43 +1,39 @@
-.button {
-    background-color: #fff;
-    border: solid transparent;
-    border-radius: 16px;
-    border-width: 0 0 4px;
-    box-sizing: border-box;
-    color: #000000;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 15px;
-    font-weight: 700;
-    padding: 13px 16px;
-    text-align: center;
+.gamePlay {
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--primary-color);
+    font-weight: var(--game-font-weight);
+    border: var(--border);
+    font-size: var(--game-font-size);
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
     text-transform: uppercase;
-    transform: translateZ(0);
-    transition: filter 0.2s;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.button:after {
-    background-clip: padding-box;
-    background-color: #fff;
-    border: solid transparent;
-    border-radius: 16px;
-    border-width: 0 0 4px;
-    bottom: -4px;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: -1;
+.gamePlay:hover {
+    background-color: var(--primary-color);
+    color: var(--background-start);
 }
 
-.button:hover:not(:disabled) {
-    filter: brightness(1.1);
-    -webkit-filter: brightness(1.1);
+.regular {
+    background-color: var(--primary-color);
+    color: var(--background-end);
+    border: var(--border);
+    font-size: var(--regular-font-size);
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 13px 16px;
+    height: min-content;
 }
 
-.button:active {
-    border-width: 4px 0 0;
-    background: none;
+.regular:hover {
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--primary-color);
 }

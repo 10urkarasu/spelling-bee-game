@@ -1,7 +1,14 @@
 .wordList {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
     text-decoration: none;
+    list-style: none;
+}
+
+@media (max-width: 768px) {
+    .wordList {
+        flex-direction: column-reverse;
+    }
 }

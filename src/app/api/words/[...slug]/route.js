@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
+import path from "path";
 
 export const GET = async (req, { params }) => {
     //Türkçeye ait kelimeler sorgulandığında => http://localhost:3000/api/words/tr/exampleword
